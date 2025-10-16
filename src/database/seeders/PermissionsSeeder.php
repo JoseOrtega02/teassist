@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+
+
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
@@ -41,22 +43,25 @@ class PermissionsSeeder extends Seeder
         app()[PermissionRegistrar::class]->forgetCachedPermissions();
 
         foreach ($this->permissions as $permission) {
-            Permission::create(['name' => $permission]);
-        }
+    Permission::firstOrCreate([
+        'name' => $permission,
+        'guard_name' => 'web',
+    ]);
+}
+        
+Role::firstOrCreate(['name' => 'root', 'guard_name' => 'web']);
 
-        Role::create(['name' => 'root']);
-
-        $registered_role = Role::create(['name' => 'registered']);
+        $registered_role = Role::firstOrCreate(['name' => 'registered', 'guard_name' => 'web']);
         $registered_role->givePermissionTo(self::SEE_PANEL);
 
-        $roles_admin = Role::create(['name' => 'roles-admin']);
+        $roles_admin = Role::firstOrCreate(['name' => 'roles-admin', 'guard_name' => 'web']);
         $roles_admin->givePermissionTo(self::SEE_PANEL);
         $roles_admin->givePermissionTo(self::ROLES_LIST);
         $roles_admin->givePermissionTo(self::ROLES_CREATE);
         $roles_admin->givePermissionTo(self::ROLES_EDIT);
         $roles_admin->givePermissionTo(self::ROLES_DELETE);
 
-        $users_admin = Role::create(['name' => 'users-admin']);
+        $users_admin = Role::firstOrCreate(['name' => 'users-admin', 'guard_name' => 'web']);
         $users_admin->givePermissionTo(self::SEE_PANEL);
         $users_admin->givePermissionTo(self::USERS_LIST);
         $users_admin->givePermissionTo(self::USERS_CREATE);

@@ -8,28 +8,22 @@
     @vite('resources/css/app.css')
 </head>
 
-<body class="font-sans antialiased dark:bg-black dark:text-white/50">
-    <header class="bg-green-500 text-white p-4 border rounded-lg shadow-xl m-3">
-        <div class="container mx-auto px-4">
-            <h1 class="text-3xl font-bold">Software para Personas con Diagnóstico de Autismo</h1>
+<body class="font-sans antialiased bg-pink-50 dark:bg-gray-900 dark:text-white/50">
+    <header class="bg-yellow-100 dark:bg-yellow-900 border-b border-yellow-200 dark:border-yellow-800 py-8 mb-8">
+        <div class="container mx-auto flex flex-col md:flex-row items-center justify-between px-4">
+          <h1 class="text-4xl md:text-5xl font-extrabold text-pink-500 dark:text-pink-300 mb-4 md:mb-0 tracking-tight">Software para Personas con Diagnóstico de Autismo</h1>
             @if (Route::has('login'))
                 <nav class="-mx-3 flex flex-1 justify-end">
                     @auth
                         <a href="{{ url('/dashboard') }}"
-                            class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white">
-                            Panel
-                        </a>
+                           class="rounded px-4 py-2 text-gray-700 dark:text-gray-200 border border-gray-300 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 transition">Panel</a>
                     @else
                         <a href="{{ route('login') }}"
-                            class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#477c92] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white">
-                            Ingresar
-                        </a>
+                            class="rounded px-4 py-2 text-gray-700 dark:text-gray-200 border border-gray-300 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 transition">Ingresar</a>
 
                         @if (Route::has('register'))
                             <a href="{{ route('register') }}"
-                                class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#477c92] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white">
-                                Registrarse
-                            </a>
+                                class="rounded px-4 py-2 text-gray-700 dark:text-gray-200 border border-gray-300 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 transition">Registrarse</a>
                         @endif
                     @endauth
                 </nav>
@@ -38,70 +32,83 @@
     </header>
 
     <main class="container mx-auto px-4 py-8">
-        <section class="mb-12">
-            <h2 class="text-2xl font-semibold mb-4">¿Qué es el Trastorno del Espectro Autista (TEA)?</h2>
-            <p class="mb-4">El Trastorno del Espectro Autista (TEA) es una condición caracterizada por presentar
-                variables alteraciones con un impacto de por vida. Estas manifestaciones son muy variables entre
-                individuos y a través del tiempo, acorde al crecimiento y maduración de las personas.</p>
-            <img src="images/image_1.jpeg" alt="Representación del espectro autista" class="rounded-lg shadow-lg mb-4">
+    <section class="mb-12">
+                <div class="bg-white dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-800 p-6">
+                <h2 class="text-3xl font-bold mb-4 text-blue-700 dark:text-blue-300">¿Qué es el Trastorno del Espectro Autista (TEA)?</h2>
+                <p class="mb-4 text-gray-700 dark:text-gray-200">El Trastorno del Espectro Autista (TEA) es una condición caracterizada por presentar
+                    variables alteraciones con un impacto de por vida. Estas manifestaciones son muy variables entre
+                    individuos y a través del tiempo, acorde al crecimiento y maduración de las personas.</p>
+                <img src="images/image_1.jpeg" alt="Representación del espectro autista" class="rounded-xl shadow-2xl mb-4 mx-auto w-full max-w-md">
+            </div>
         </section>
 
         <section class="mb-12">
-            <h2 class="text-2xl font-semibold mb-4">Características del Autismo</h2>
-            <ul class="list-disc pl-6 mb-4">
-                <li>Dificultades en la comunicación</li>
-                <li>Dificultades en las interacciones sociales</li>
-                <li>Intereses restringidos</li>
-                <li>Repetición de comportamientos</li>
-                <li>Sensibilidad sensorial</li>
-                <li>Dificultades con el cambio</li>
-                <li>Habilidades excepcionales en áreas específicas</li>
-            </ul>
-            <img src="images/image_2.jpeg" alt="Ilustración de características del autismo"
-                class="rounded-lg shadow-lg mb-4">
+                <div class="bg-white dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-800 p-6">
+                <h2 class="text-3xl font-bold mb-4 text-blue-500 dark:text-blue-300">Características del Autismo</h2>
+                <ul class="space-y-3 mb-4">
+                <ul class="space-y-3 mb-4">
+                    <li class="flex items-center text-blue-900 dark:text-blue-200"><span class="inline-block w-4 h-4 bg-yellow-300 rounded-full mr-3 border-2 border-pink-400"></span>Dificultades en la comunicación</li>
+                    <li class="flex items-center text-blue-900 dark:text-blue-200"><span class="inline-block w-4 h-4 bg-green-300 rounded-full mr-3 border-2 border-purple-400"></span>Dificultades en las interacciones sociales</li>
+                    <li class="flex items-center text-blue-900 dark:text-blue-200"><span class="inline-block w-4 h-4 bg-pink-300 rounded-full mr-3 border-2 border-yellow-400"></span>Intereses restringidos</li>
+                    <li class="flex items-center text-blue-900 dark:text-blue-200"><span class="inline-block w-4 h-4 bg-purple-300 rounded-full mr-3 border-2 border-green-400"></span>Repetición de comportamientos</li>
+                    <li class="flex items-center text-blue-900 dark:text-blue-200"><span class="inline-block w-4 h-4 bg-orange-300 rounded-full mr-3 border-2 border-blue-400"></span>Sensibilidad sensorial</li>
+                    <li class="flex items-center text-blue-900 dark:text-blue-200"><span class="inline-block w-4 h-4 bg-blue-200 rounded-full mr-3 border-2 border-orange-400"></span>Dificultades con el cambio</li>
+                    <li class="flex items-center text-blue-900 dark:text-blue-200"><span class="inline-block w-4 h-4 bg-teal-300 rounded-full mr-3 border-2 border-pink-400"></span>Habilidades excepcionales en áreas específicas</li>
+                </ul>
+                <img src="images/image_2.jpeg" alt="Ilustración de características del autismo"
+                    class="rounded-xl shadow-2xl mb-4 mx-auto w-full max-w-md">
+            </div>
         </section>
 
         <section class="mb-12">
-            <h2 class="text-2xl font-semibold mb-4">Nuestro Software</h2>
-            <p class="mb-4">Desarrollamos un software especializado para ayudar a personas con Trastorno del Espectro
-                Autista (TEA). Nuestro objetivo es proporcionar una herramienta que facilite la inclusión y mejore la
-                calidad de vida de las personas con TEA.</p>
-            <h3 class="text-xl font-semibold mb-2">Características del Software:</h3>
-            <ul class="list-disc pl-6 mb-4">
-                <li>Interfaz amigable e intuitiva</li>
-                <li>Personalización según necesidades individuales</li>
-                <li>Comunicación visual</li>
-                <li>Estructura y rutina claras</li>
-                <li>Accesibilidad en diferentes dispositivos</li>
-                <li>Colaboración con expertos en TEA</li>
-                <li>Privacidad y seguridad garantizadas</li>
-                <li>Actualizaciones y soporte continuo</li>
-            </ul>
-            <img src="images/image_3.jpeg" alt="Captura de pantalla del software" class="rounded-lg shadow-lg mb-4">
+                <div class="bg-white dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-800 p-6">
+                <h2 class="text-3xl font-bold mb-4 text-green-500 dark:text-green-300">Nuestro Software</h2>
+                <p class="mb-4 text-gray-700 dark:text-gray-200">Desarrollamos un software especializado para ayudar a personas con Trastorno del Espectro
+                    Autista (TEA). Nuestro objetivo es proporcionar una herramienta que facilite la inclusión y mejore la
+                    calidad de vida de las personas con TEA.</p>
+                <h3 class="text-xl font-semibold mb-2 text-pink-500 dark:text-pink-300">Características del Software:</h3>
+                <ul class="space-y-3 mb-4">
+                <ul class="space-y-3 mb-4">
+                    <li class="flex items-center text-green-900 dark:text-green-200"><span class="inline-block w-4 h-4 bg-pink-300 rounded-full mr-3 border-2 border-yellow-400"></span>Interfaz amigable e intuitiva</li>
+                    <li class="flex items-center text-green-900 dark:text-green-200"><span class="inline-block w-4 h-4 bg-yellow-300 rounded-full mr-3 border-2 border-pink-400"></span>Personalización según necesidades individuales</li>
+                    <li class="flex items-center text-green-900 dark:text-green-200"><span class="inline-block w-4 h-4 bg-blue-300 rounded-full mr-3 border-2 border-green-400"></span>Comunicación visual</li>
+                    <li class="flex items-center text-green-900 dark:text-green-200"><span class="inline-block w-4 h-4 bg-purple-300 rounded-full mr-3 border-2 border-blue-400"></span>Estructura y rutina claras</li>
+                    <li class="flex items-center text-green-900 dark:text-green-200"><span class="inline-block w-4 h-4 bg-orange-300 rounded-full mr-3 border-2 border-purple-400"></span>Accesibilidad en diferentes dispositivos</li>
+                    <li class="flex items-center text-green-900 dark:text-green-200"><span class="inline-block w-4 h-4 bg-teal-300 rounded-full mr-3 border-2 border-pink-400"></span>Colaboración con expertos en TEA</li>
+                    <li class="flex items-center text-green-900 dark:text-green-200"><span class="inline-block w-4 h-4 bg-pink-200 rounded-full mr-3 border-2 border-green-400"></span>Privacidad y seguridad garantizadas</li>
+                    <li class="flex items-center text-green-900 dark:text-green-200"><span class="inline-block w-4 h-4 bg-yellow-200 rounded-full mr-3 border-2 border-blue-400"></span>Actualizaciones y soporte continuo</li>
+                </ul>
+                <img src="images/image_3.jpeg" alt="Captura de pantalla del software" class="rounded-xl shadow-2xl mb-4 mx-auto w-full max-w-md">
+            </div>
         </section>
 
         <section class="mb-12">
-            <h2 class="text-2xl font-semibold mb-4">Beneficios de Nuestro Software</h2>
-            <ul class="list-disc pl-6 mb-4">
-                <li>Desarrollo de habilidades cognitivas, emocionales y motrices</li>
-                <li>Fomento de actividades interactivas para mejorar relaciones interpersonales</li>
-                <li>Complemento a la intervención terapéutica tradicional</li>
-                <li>Contenido adaptable y personalizable</li>
-                <li>Retroalimentación inmediata y seguimiento del progreso</li>
-            </ul>
-            <img src="images/image_4.jpeg" alt="Personas utilizando el software" class="rounded-lg shadow-lg mb-4">
+                <div class="bg-white dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-800 p-6">
+                <h2 class="text-3xl font-bold mb-4 text-orange-500 dark:text-orange-300">Beneficios de Nuestro Software</h2>
+                <ul class="space-y-3 mb-4">
+                <ul class="space-y-3 mb-4">
+                    <li class="flex items-center text-orange-900 dark:text-orange-200"><span class="inline-block w-4 h-4 bg-green-300 rounded-full mr-3 border-2 border-pink-400"></span>Desarrollo de habilidades cognitivas, emocionales y motrices</li>
+                    <li class="flex items-center text-orange-900 dark:text-orange-200"><span class="inline-block w-4 h-4 bg-yellow-300 rounded-full mr-3 border-2 border-blue-400"></span>Fomento de actividades interactivas para mejorar relaciones interpersonales</li>
+                    <li class="flex items-center text-orange-900 dark:text-orange-200"><span class="inline-block w-4 h-4 bg-pink-300 rounded-full mr-3 border-2 border-green-400"></span>Complemento a la intervención terapéutica tradicional</li>
+                    <li class="flex items-center text-orange-900 dark:text-orange-200"><span class="inline-block w-4 h-4 bg-blue-300 rounded-full mr-3 border-2 border-orange-400"></span>Contenido adaptable y personalizable</li>
+                    <li class="flex items-center text-orange-900 dark:text-orange-200"><span class="inline-block w-4 h-4 bg-purple-300 rounded-full mr-3 border-2 border-yellow-400"></span>Retroalimentación inmediata y seguimiento del progreso</li>
+                </ul>
+                <img src="images/image_4.jpeg" alt="Personas utilizando el software" class="rounded-xl shadow-2xl mb-4 mx-auto w-full max-w-md">
+            </div>
         </section>
 
-        <section class="bg-blue-100 p-6 rounded-lg">
-            <h2 class="text-2xl font-semibold mb-4">Contáctenos</h2>
-            <p>Para más información sobre nuestro software o para solicitar una demostración, por favor contáctenos:</p>
-            <a href="mailto:info@autismosoftware.com" class="text-blue-600 hover:underline">info@autismosoftware.com</a>
+        <section class="rounded-lg">
+            <div class="bg-white dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-800 p-6">
+                    <h2 class="text-2xl font-semibold mb-4 text-teal-500 dark:text-teal-300">Contáctenos</h2>
+                <p class="mb-2 text-gray-700 dark:text-gray-200">Para más información sobre nuestro software o para solicitar una demostración, por favor contáctenos:</p>
+                <a href="mailto:info@autismosoftware.com" class="text-pink-600 dark:text-pink-300 font-semibold hover:underline">info@autismosoftware.com</a>
+            </div>
         </section>
     </main>
 
-    <footer class="bg-gray-800 text-white py-4 mt-12">
+    <footer class="bg-purple-200 dark:bg-purple-900 text-purple-900 dark:text-purple-100 py-4 mt-12">
         <div class="container mx-auto px-4 text-center">
-            <p>&copy; 2024 Software para Personas con Diagnóstico de Autismo. Todos los derechos reservados.</p>
+                <p class="text-xs text-gray-400">&copy; 2024 Software para Personas con Diagnóstico de Autismo. Todos los derechos reservados.</p>
         </div>
     </footer>
 </body>
