@@ -3,11 +3,12 @@
 namespace Database\Seeders;
 
 use App\Models\Patient;
+use App\Models\Therapist;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\User;
 
-class PatientSeeder extends Seeder
+class TherapistSeeder extends Seeder
 {
     use WithoutModelEvents;
 
@@ -21,15 +22,14 @@ class PatientSeeder extends Seeder
             ->create();
 
         foreach ($users as $user) {
-            // Asignar rol patient
-            $user->assignRole('patient');
-            $user->role = 'patient';
+            // Asignar rol therapist
+            $user->assignRole('therapist');
+            $user->role = 'therapist';
             $user->save();
 
-            // Crear paciente
-            $patient = Patient::create([
+            // Crear terapeuta
+            $therapist = Therapist::create([
                 'user_id' => $user->id,
-                'codigo' => fake()->unique()->regexify('[A-Z]{3}[0-9]{3}'),
                 'nombres' => explode(' ', $user->name)[0],
                 'apellidos' => explode(' ', $user->name)[1] ?? 'Apellido',
                 'dni' => fake()->unique()->numerify('########'),
@@ -38,7 +38,6 @@ class PatientSeeder extends Seeder
                 'telefono' => fake()->phoneNumber(),
                 'email' => $user->email,
                 'direccion' => fake()->address(),
-                'observaciones' => '',
             ]);
         }
     }

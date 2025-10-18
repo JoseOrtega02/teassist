@@ -25,7 +25,7 @@
                     this.fetchEvents(1);
                     setInterval(() => {
                         this.fetchEvents();
-                    }, 1000);
+                    }, 3000);
                 }
             }
         }

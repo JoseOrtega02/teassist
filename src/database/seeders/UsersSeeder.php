@@ -2,9 +2,12 @@
 
 namespace Database\Seeders;
 
+
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 
 class UsersSeeder extends Seeder
 {
@@ -13,13 +16,31 @@ class UsersSeeder extends Seeder
         // Truncate users table before seeding
         DB::table('users')->truncate();
 
-        User::factory()->rootUser()->create()->assignRole('root');
-        User::factory()->create()->assignRole('roles-admin');
-        User::factory()->create()->assignRole('users-admin');
+        // Asegurar que el rol root tenga todos los permisos
+        $rootRole = Role::firstOrCreate(['name' => 'root', 'guard_name' => 'web']);
+        $rootRole->givePermissionTo(Permission::all());
 
-        User::factory()->count(7)->create()->each(function ($user) {
+        // Obtener otros roles por nombre
+        $rolesAdminRole = Role::where('name', 'roles-admin')->first();
+        $usersAdminRole = Role::where('name', 'users-admin')->first();
+        $registeredRole = Role::where('name', 'registered')->first();
+
+        // Crear usuario root
+        $rootUser = User::factory()->rootUser()->create(['role' => $rootRole->id]);
+        $rootUser->assignRole('root');
+
+        // Crear admin de roles
+        $rolesAdmin = User::factory()->create(['role' => $rolesAdminRole?->id]);
+        $rolesAdmin->assignRole('roles-admin');
+
+        // Crear admin de usuarios
+        $usersAdmin = User::factory()->create(['role' => $usersAdminRole?->id]);
+        $usersAdmin->assignRole('users-admin');
+
+        // Crear usuarios registrados
+        User::factory()->count(7)->create()->each(function ($user) use ($registeredRole) {
+            $user->update(['role' => "registered"]);
             $user->assignRole('registered');
         });
-
     }
 }

@@ -12,35 +12,47 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
-                        {{ __('Inicio') }}
-                    </x-nav-link>
-                </div>
-                <!-- Navigation Links for Roles, Users and Patients -->
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link href="{{ route('roles.index') }}" :active="request()->routeIs('roles.index')">
-                        {{ __('Roles') }}
-                    </x-nav-link>
-                </div>
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link href="{{ route('users.index') }}" :active="request()->routeIs('users.index')">
-                        {{ __('Usuarios') }}
-                    </x-nav-link>
-                </div>
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link href="{{ route('patients.index') }}" :active="request()->routeIs('patients.index')">
-                        {{ __('Pacientes') }}
-                    </x-nav-link>
-                </div>
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link href="{{ route('activities.index') }}" :active="request()->routeIs('activities.index')">
-                        {{ __('Actividades') }}
-                    </x-nav-link>
-                </div>
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link href="{{ route('patient-activities.index') }}" :active="request()->routeIs('patient-activities.index')">
-                        {{ __('Actividades de Pacientes') }}
-                    </x-nav-link>
+                    @can('see-panel')
+                        <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
+                            {{ __('Inicio') }}
+                        </x-nav-link>
+                    @endcan
+
+                    @can('patient-list')
+                        <x-nav-link href="{{ route('patients.index') }}" :active="request()->routeIs('patients.*')">
+                            {{ __('Pacientes') }}
+                        </x-nav-link>
+                    @endcan
+
+                    @can('therapist-list')
+                        <x-nav-link href="{{ route('therapists.index') }}" :active="request()->routeIs('therapists.*')">
+                            {{ __('Terapeutas') }}
+                        </x-nav-link>
+                    @endcan
+
+                    @can('activity-list')
+                        <x-nav-link href="{{ route('activities.index') }}" :active="request()->routeIs('activities.*')">
+                            {{ __('Actividades') }}
+                        </x-nav-link>
+                    @endcan
+
+                    @can('activity-patient-list')
+                        <x-nav-link href="{{ route('patient-activities.index') }}" :active="request()->routeIs('patient-activities.*')">
+                            {{ __('Asignaciones') }}
+                        </x-nav-link>
+                    @endcan
+
+                    @can('users-list')
+                        <x-nav-link href="{{ route('users.index') }}" :active="request()->routeIs('users.*')">
+                            {{ __('Usuarios') }}
+                        </x-nav-link>
+                    @endcan
+
+                    @can('roles-list')
+                        <x-nav-link href="{{ route('roles.index') }}" :active="request()->routeIs('roles.*')">
+                            {{ __('Roles') }}
+                        </x-nav-link>
+                    @endcan
                 </div>
             </div>
 
@@ -176,25 +188,47 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{ 'block': open, 'hidden': !open }" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
-                {{ __('Inicio') }}
-            </x-responsive-nav-link>
-            <!-- Responsive Navigation Link for Roles, Users and Patients -->
-            <x-responsive-nav-link href="{{ route('roles.index') }}" :active="request()->routeIs('roles.index')">
-                {{ __('Roles') }}
-            </x-responsive-nav-link>
-            <x-responsive-nav-link href="{{ route('users.index') }}" :active="request()->routeIs('users.index')">
-                {{ __('Usuarios') }}
-            </x-responsive-nav-link>
-            <x-responsive-nav-link href="{{ route('patients.index') }}" :active="request()->routeIs('patients.index')">
-                {{ __('Pacientes') }}
-            </x-responsive-nav-link>
-            <x-responsive-nav-link href="{{ route('activities.index') }}" :active="request()->routeIs('activities.index')">
-                {{ __('Actividades') }}
-            </x-responsive-nav-link>
-            <x-responsive-nav-link href="{{ route('patient-activities.index') }}" :active="request()->routeIs('patient-activities.index')">
-                {{ __('Actividades de Pacientes') }}
-            </x-responsive-nav-link>
+            @can('see-panel')
+                <x-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
+                    {{ __('Inicio') }}
+                </x-responsive-nav-link>
+            @endcan
+
+            @can('patient-list')
+                <x-responsive-nav-link href="{{ route('patients.index') }}" :active="request()->routeIs('patients.*')">
+                    {{ __('Pacientes') }}
+                </x-responsive-nav-link>
+            @endcan
+
+            @can('therapist-list')
+                <x-responsive-nav-link href="{{ route('therapists.index') }}" :active="request()->routeIs('therapists.*')">
+                    {{ __('Terapeutas') }}
+                </x-responsive-nav-link>
+            @endcan
+
+            @can('activity-list')
+                <x-responsive-nav-link href="{{ route('activities.index') }}" :active="request()->routeIs('activities.*')">
+                    {{ __('Actividades') }}
+                </x-responsive-nav-link>
+            @endcan
+
+            @can('activity-patient-list')
+                <x-responsive-nav-link href="{{ route('patient-activities.index') }}" :active="request()->routeIs('patient-activities.*')">
+                    {{ __('Asignaciones') }}
+                </x-responsive-nav-link>
+            @endcan
+
+            @can('users-list')
+                <x-responsive-nav-link href="{{ route('users.index') }}" :active="request()->routeIs('users.*')">
+                    {{ __('Usuarios') }}
+                </x-responsive-nav-link>
+            @endcan
+
+            @can('roles-list')
+                <x-responsive-nav-link href="{{ route('roles.index') }}" :active="request()->routeIs('roles.*')">
+                    {{ __('Roles') }}
+                </x-responsive-nav-link>
+            @endcan
         </div>
 
         <!-- Responsive Settings Options -->
@@ -208,7 +242,24 @@
                 @endif
 
                 <div>
-                    <div class="font-medium text-base text-gray-800 dark:text-gray-200">{{ Auth::user()->name }}</div>
+                    <div class="font-medium text-base text-gray-800 dark:text-gray-200 flex items-center">
+                        {{ Auth::user()->name }}
+                        @role('root')
+                            <span class="ml-2 px-2 py-0.5 text-xs bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200 rounded font-semibold">ROOT</span>
+                        @endrole
+                        @role('therapist')
+                            <span class="ml-2 px-2 py-0.5 text-xs bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 rounded font-semibold">Terapeuta</span>
+                        @endrole
+                        @role('patient')
+                            <span class="ml-2 px-2 py-0.5 text-xs bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200 rounded font-semibold">Paciente</span>
+                        @endrole
+                        @role('users-admin')
+                            <span class="ml-2 px-2 py-0.5 text-xs bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200 rounded font-semibold">Admin Usuarios</span>
+                        @endrole
+                        @role('roles-admin')
+                            <span class="ml-2 px-2 py-0.5 text-xs bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-200 rounded font-semibold">Admin Roles</span>
+                        @endrole
+                    </div>
                     <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
                 </div>
             </div>

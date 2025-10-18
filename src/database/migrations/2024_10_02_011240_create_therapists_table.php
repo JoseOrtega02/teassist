@@ -1,6 +1,5 @@
 <?php
 
-
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -9,32 +8,25 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('patients', function (Blueprint $table) {
+        Schema::create('therapists', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')
-                  ->nullable()
                   ->constrained('users')
                   ->onDelete('cascade');
-            $table->foreignId('therapist_id')
-                  ->nullable()
-                  ->constrained('therapists')
-                  ->onDelete('set null');
-            $table->string('codigo')->unique();
-            $table->string('apellidos');
             $table->string('nombres');
+            $table->string('apellidos');
             $table->string('dni')->unique();
             $table->date('nacimiento');
             $table->string('sexo');
             $table->string('telefono');
             $table->string('email')->unique();
             $table->string('direccion');
-            $table->text('observaciones')->nullable();
             $table->timestamps();
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('patients');
+        Schema::dropIfExists('therapists');
     }
 };
