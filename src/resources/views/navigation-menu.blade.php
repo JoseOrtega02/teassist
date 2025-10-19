@@ -37,9 +37,11 @@
                     @endcan
 
                     @can('activity-patient-list')
-                        <x-nav-link href="{{ route('patient-activities.index') }}" :active="request()->routeIs('patient-activities.*')">
-                            {{ __('Asignaciones') }}
-                        </x-nav-link>
+                        @unlessrole('patient')
+                            <x-nav-link href="{{ route('patient-activities.index') }}" :active="request()->routeIs('patient-activities.*')">
+                                {{ __('Asignaciones') }}
+                            </x-nav-link>
+                        @endunlessrole
                     @endcan
 
                     @can('users-list')
@@ -213,9 +215,11 @@
             @endcan
 
             @can('activity-patient-list')
-                <x-responsive-nav-link href="{{ route('patient-activities.index') }}" :active="request()->routeIs('patient-activities.*')">
-                    {{ __('Asignaciones') }}
-                </x-responsive-nav-link>
+                @unlessrole('patient')
+                    <x-responsive-nav-link href="{{ route('patient-activities.index') }}" :active="request()->routeIs('patient-activities.*')">
+                        {{ __('Asignaciones') }}
+                    </x-responsive-nav-link>
+                @endunlessrole
             @endcan
 
             @can('users-list')

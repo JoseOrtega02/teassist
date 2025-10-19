@@ -9,10 +9,20 @@ use App\Http\Controllers\PatientController;
 use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\ContadorController;
 use App\Http\Controllers\PatientActivityController;
+use App\Http\Controllers\Auth\PatientLoginController;
 
 Route::get('/', function () {
     return view('landing');
 })->name('landing');
+
+// ===============================
+// LOGIN DE PACIENTES POR CÓDIGO
+// Rutas accesibles para invitados
+// ===============================
+Route::middleware(['guest'])->group(function () {
+    Route::get('/patient/login', [PatientLoginController::class, 'show'])->name('patient.login.show');
+    Route::post('/patient/login', [PatientLoginController::class, 'login'])->name('patient.login');
+});
 
 Route::get('/contador', [ContadorController::class, 'index'])->name('contador');
 Route::get('/contador/incrementar/{número}', [ContadorController::class, 'incrementar'])->name('incrementar');

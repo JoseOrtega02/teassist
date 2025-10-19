@@ -13,18 +13,13 @@
         <div class="container mx-auto flex flex-col md:flex-row items-center justify-between px-4">
           <h1 class="text-4xl md:text-5xl font-extrabold text-pink-500 dark:text-pink-300 mb-4 md:mb-0 tracking-tight">Software para Personas con Diagnóstico de Autismo</h1>
             @if (Route::has('login'))
-                <nav class="-mx-3 flex flex-1 justify-end">
+                <nav class="-mx-3 flex flex-1 justify-end items-center">
                     @auth
                         <a href="{{ url('/dashboard') }}"
                            class="rounded px-4 py-2 text-gray-700 dark:text-gray-200 border border-gray-300 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 transition">Panel</a>
                     @else
-                        <a href="{{ route('login') }}"
-                            class="rounded px-4 py-2 text-gray-700 dark:text-gray-200 border border-gray-300 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 transition">Ingresar</a>
-
-                        @if (Route::has('register'))
-                            <a href="{{ route('register') }}"
-                                class="rounded px-4 py-2 text-gray-700 dark:text-gray-200 border border-gray-300 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 transition">Registrarse</a>
-                        @endif
+                        <a href="{{ route('patient.login.show') }}"
+                           class="rounded px-4 py-2 bg-pink-500 text-white border border-pink-600 hover:bg-pink-600 transition">Ingresar</a>
                     @endauth
                 </nav>
             @endif

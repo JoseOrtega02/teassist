@@ -128,11 +128,10 @@ class PermissionsSeeder extends Seeder
             self::PATIENT_LIST,
         ]);
 
-        // Patient: solo puede ver sus propias actividades
+        // Patient: solo puede ver sus propias actividades (no ve asignaciones globales)
         $patient = Role::firstOrCreate(['name' => 'patient', 'guard_name' => 'web']);
         $patient->syncPermissions([
             self::SEE_PANEL,
-            self::ACTIVITY_PATIENT_LIST,
             self::ACTIVITY_LIST,
         ]);
     }

@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Activity;
+use App\Models\PatientActivity;
 use App\Http\Requests\StoreActivityRequest;
 use App\Http\Requests\UpdateActivityRequest;
 use App\Traits\DebugHelper;
 use App\Utils\ImageUtils;
 use Intervention\Image\Laravel\Facades\Image;
+use Illuminate\Support\Facades\Auth;
 
 class ActivityController extends Controller
 {
@@ -19,11 +21,23 @@ class ActivityController extends Controller
     public function index()
     {
         $searchString = request()->get('search');
+        $user = Auth::user();
 
-        if ($searchString) {
-            $activities = Activity::where('name', 'like', "%$searchString%")->latest()->paginate(5);
+        // Si es paciente, solo mostrar actividades asignadas a ese paciente
+        if ($user && ($user->role === 'patient') && method_exists($user, 'patient') && $user->patient) {
+            $activityIds = PatientActivity::where('patient_id', $user->patient->id)->pluck('activity_id');
+            $query = Activity::whereIn('id', $activityIds);
+            if ($searchString) {
+                $query->where('name', 'like', "%$searchString%");
+            }
+            $activities = $query->latest()->paginate(5);
         } else {
-            $activities = Activity::latest()->paginate(5);
+            // Catálogo general para terapeutas/admins
+            if ($searchString) {
+                $activities = Activity::where('name', 'like', "%$searchString%")->latest()->paginate(5);
+            } else {
+                $activities = Activity::latest()->paginate(5);
+            }
         }
         return view('activities.index', compact('activities'));
     }
@@ -33,6 +47,9 @@ class ActivityController extends Controller
      */
     public function create()
     {
+        if (Auth::user() && Auth::user()->role === 'patient') {
+            abort(403);
+        }
         return view('activities.create');
     }
 
@@ -41,6 +58,9 @@ class ActivityController extends Controller
      */
     public function store(StoreActivityRequest $request)
     {
+        if (Auth::user() && Auth::user()->role === 'patient') {
+            abort(403);
+        }
         $file = $request->file('image');
         $contents = file_get_contents($file);
         $base64Images = ImageUtils  ::base64Images($contents);
@@ -64,6 +84,9 @@ class ActivityController extends Controller
      */
     public function edit(Activity $activity)
     {
+        if (Auth::user() && Auth::user()->role === 'patient') {
+            abort(403);
+        }
         return view('activities.edit', compact('activity'));
     }
 
@@ -72,6 +95,9 @@ class ActivityController extends Controller
      */
     public function update(UpdateActivityRequest $request, Activity $activity)
     {
+        if (Auth::user() && Auth::user()->role === 'patient') {
+            abort(403);
+        }
         $file = $request->file('image');
         $validated = $request->validated();
         if ($file) {
@@ -90,6 +116,9 @@ class ActivityController extends Controller
      */
     public function destroy(Activity $activity)
     {
+        if (Auth::user() && Auth::user()->role === 'patient') {
+            abort(403);
+        }
         $activity->delete();
         return redirect()->route('activities.index');
     }

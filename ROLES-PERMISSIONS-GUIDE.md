@@ -23,7 +23,7 @@ Este proyecto implementa un **sistema de control de acceso basado en roles y per
 - **users-admin**: Administrador de usuarios
 - **roles-admin**: Administrador de roles
 - **therapist**: Terapeuta (gestiona pacientes y actividades)
-- **patient**: Paciente (ve sus propias actividades)
+- **patient**: Paciente (login por código; solo ve sus actividades asignadas)
 - **registered**: Usuario registrado básico
 
 ### Tecnologías:
@@ -31,8 +31,6 @@ Este proyecto implementa un **sistema de control de acceso basado en roles y per
 - Spatie Laravel Permission 6.9
 - Laravel Jetstream (autenticación)
 - Livewire 3.0
-- Tailwind CSS
-
 ---
 
 ## 📊 Estructura de la Base de Datos
@@ -62,8 +60,6 @@ therapists
 ├── telefono
 ├── email (unique)
 ├── direccion
-├── created_at
-└── updated_at
 
 -- Tabla de pacientes
 patients
@@ -71,11 +67,7 @@ patients
 ├── user_id (FK -> users.id) -- Relación 1:1 con User
 ├── therapist_id (FK -> therapists.id) -- Relación N:1 con Therapist
 ├── codigo (unique)
-├── nombres
-├── apellidos
-├── dni (unique)
 ├── nacimiento
-├── sexo
 ├── telefono
 ├── email (unique)
 ├── direccion
@@ -1109,6 +1101,70 @@ php artisan route:list --name=therapists
 # Ver middlewares de una ruta
 php artisan route:list --path=therapists
 ```
+
+---
+
+## 👤 Login de Pacientes por Código
+
+Habilitamos un flujo de autenticación simple para pacientes usando su `codigo` (columna en la tabla `patients`).
+
+### Rutas
+
+- GET `/patient/login` → Formulario para ingresar el código
+- POST `/patient/login` → Valida el código y autentica al usuario asociado
+
+Archivo: `routes/web.php`
+
+```php
+Route::middleware(['guest'])->group(function () {
+    Route::get('/patient/login', [PatientLoginController::class, 'show'])->name('patient.login.show');
+    Route::post('/patient/login', [PatientLoginController::class, 'login'])->name('patient.login');
+});
+```
+
+### Controlador
+
+Archivo: `app/Http/Controllers/Auth/PatientLoginController.php`
+
+- Busca `Patient` por `codigo`
+- Obtiene `User` por `user_id`
+- Verifica rol `patient`
+- `Auth::login($user, true)` y redirige a `route('dashboard')` (o `intended`)
+
+### Vista y Landing
+
+- `resources/views/auth/patient-login.blade.php`: Campo `codigo` + enlaces debajo: “Admin o terapeuta” (login normal) y “Registrarse” (si está disponible)
+- `resources/views/landing.blade.php`: Un único botón “Ingresar” que redirige a `/patient/login`
+
+---
+
+## 🧩 Restricciones para Pacientes (Asignaciones y Actividades)
+
+Objetivo: El paciente NO debe ver “Asignaciones” ni actividades de otros pacientes, y en “Actividades” solo debe inspeccionar.
+
+### Asignaciones (Patient-Activities)
+
+- Menú: Ocultamos “Asignaciones” para pacientes
+  - Archivo: `resources/views/navigation-menu.blade.php`
+  - Lógica: `@can('activity-patient-list')` + `@unlessrole('patient')`
+- Permisos: El rol `patient` ya no incluye `activity-patient-list`
+  - Archivo: `database/seeders/PermissionsSeeder.php`
+- Backend: Bloqueo total para `patient`
+  - Archivo: `app/Http/Controllers/PatientActivityController.php`
+  - Todos los métodos (index/create/store/show/edit/update/destroy) devuelven 403 si `user.role === 'patient'`
+- Scoping para terapeutas: En `index()`, la lista de pacientes se limita a los del terapeuta autenticado
+
+### Actividades (ActivityController y Vistas)
+
+- Lista filtrada para pacientes: Solo actividades asignadas (via `PatientActivity`)
+  - Archivo: `app/Http/Controllers/ActivityController.php` (método `index()`)
+- Botones de UI:
+  - “Nueva actividad” y acciones de “Editar/Eliminar” ocultas para pacientes
+  - Archivo: `resources/views/activities/index.blade.php` usando `@unlessrole('patient')`
+- Rutas sensibles protegidas en backend:
+  - `create`, `store`, `edit`, `update`, `destroy` abortan con 403 si `role === 'patient'`
+
+Resultado: El paciente solo ve sus actividades y únicamente puede “ver/inspeccionar”.
 
 ---
 
