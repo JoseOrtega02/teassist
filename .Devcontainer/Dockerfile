@@ -1,10 +1,7 @@
-FROM mcr.microsoft.com/devcontainers/php:1-8.2-bullseye
+FROM ubuntu:22.04
 
 ARG DEBIAN_FRONTEND=noninteractive
 ENV TZ=America/Argentina/San_Juan
-
-# Configurar timezone
-RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 # Configurar locales
 RUN apt-get update && \
@@ -16,25 +13,18 @@ RUN apt-get update && \
 ENV LANG=es_ES.UTF-8
 ENV LC_ALL=es_ES.UTF-8
 
-# Instalar extensiones PHP adicionales necesarias para Laravel
-RUN apt-get update && apt-get install -y \
-    php8.2-sqlite3 \
-    php8.2-gd \
-    php8.2-intl \
-    php8.2-redis \
-    php8.2-imagick \
-    sqlite3 \
-    && apt-get clean && rm -rf /var/lib/apt/lists/*
+# Instala PHP 8.3 y extensiones comunes para Laravel, incluyendo SQLite
+RUN apt-get update && \
+    apt-get install -y software-properties-common tzdata && \
+    add-apt-repository ppa:ondrej/php -y && \
+    apt-get update && \
+    apt-get install -y \
+        php8.3 php8.3-cli php8.3-mbstring php8.3-xml php8.3-bcmath php8.3-curl php8.3-zip \
+        php8.3-sqlite3 php8.3-pdo php8.3-pdo-mysql php8.3-gd php8.3-intl php8.3-readline \
+        openssl curl git unzip composer
 
-# Instalar Composer global (última versión)
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+# Limpieza
+RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Configurar directorio de trabajo
-WORKDIR /workspaces/teassist
-
-# Crear usuario vscode si no existe
-RUN if ! id -u vscode > /dev/null 2>&1; then \
-    useradd -m -s /bin/bash vscode; \
-    fi
-
-USER vscode
+# Instala Composer (por si acaso)
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
