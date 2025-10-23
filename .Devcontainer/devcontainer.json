@@ -1,42 +1,60 @@
 {
-  "name": "TeAssist Laravel App",
-  "build": {
-    "dockerfile": "Dockerfile",
-    "context": "."
-  },
-  "features": {
-    "ghcr.io/devcontainers/features/node:1": {
-      "version": "20"
-    },
-    "ghcr.io/devcontainers/features/git:1": {}
-  },
-  "customizations": {
-    "vscode": {
-      "extensions": [
-        "bmewburn.vscode-intelephense-client",
-        "mikestead.dotenv",
-        "dbaeumer.vscode-eslint",
-        "esbenp.prettier-vscode",
-        "bradlc.vscode-tailwindcss"
-      ],
-      "settings": {
-        "terminal.integrated.defaultProfile.linux": "bash"
-      }
+    "name": "Microservicios API",
+    "dockerFile": "Dockerfile",
+    "forwardPorts": [
+        8000
+    ],
+    "postCreateCommand": [
+        "composer install",
+        "cp .env.example .env || true",
+        "php artisan key:generate --force",
+        "php artisan migrate --seed --force",
+        "php artisan storage:link || true",
+        "chmod -R 775 storage bootstrap/cache"
+    ],
+    "customizations": {
+        "vscode": {
+            "settings": {
+                "terminal.integrated.defaultProfile.linux": "bash"
+            },
+            "extensions": [
+                "bmewburn.vscode-intelephense-client",
+                "codingyu.laravel-goto-view",
+                "cweijan.dbclient-jdbc",
+                "cweijan.vscode-mysql-client2",
+                "foxundermoon.shell-format",
+                "george-alisson.html-preview-vscode",
+                "github.codespaces",
+                "github.copilot",
+                "github.copilot-chat",
+                "github.github-vscode-theme",
+                "github.vscode-pull-request-github",
+                "glitchbl.laravel-create-view",
+                "hediet.vscode-drawio",
+                "ihunte.laravel-blade-wrapper",
+                "marcuselg.markdowntoolbar",
+                "mehedidracula.php-namespace-resolver",
+                "mikestead.dotenv",
+                "ms-ceintl.vscode-language-pack-es",
+                "naoray.laravel-goto-components",
+                "onecentlin.laravel-blade",
+                "onecentlin.laravel-extension-pack",
+                "onecentlin.laravel5-snippets",
+                "pgl.laravel-jump-controller",
+                "pkief.material-icon-theme",
+                "qwtel.sqlite-viewer",
+                "ryannaddy.laravel-artisan",
+                "shd101wyy.markdown-preview-enhanced",
+                "shufo.vscode-blade-formatter",
+                "simonsiefke.svg-preview",
+                "vscode-icons-team.vscode-icons",
+                "xdebug.php-debug",
+                "zaaack.markdown-editor",
+                "devsense.composer-php-vscode",
+                "devsense.intelli-php-vscode",
+                "devsense.phptools-vscode",
+                "devsense.profiler-php-vscode"
+            ]
+        }
     }
-  },
-  "postCreateCommand": "bash .devcontainer/init.sh",
-  "postStartCommand": "cd /workspaces/teassist/src && php artisan serve --host=0.0.0.0 --port=8000 > /tmp/laravel.log 2>&1 &",
-  "forwardPorts": [8000, 5173],
-  "portsAttributes": {
-    "8000": {
-      "label": "Laravel App",
-      "onAutoForward": "notify"
-    },
-    "5173": {
-      "label": "Vite Dev Server",
-      "onAutoForward": "silent"
-    }
-  },
-  "workspaceFolder": "/workspaces/teassist",
-  "remoteUser": "vscode"
 }
