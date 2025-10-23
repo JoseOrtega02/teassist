@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>TEAssist</title>
-    @vite('resources/css/app.css')
+    <link rel="stylesheet" href="./css/app.css" type="text/css">
 </head>
 
 <body class="font-sans antialiased bg-pink-50 dark:bg-gray-900 dark:text-white/50">

@@ -1,4 +1,4 @@
 #!/bin/bash
 cd src
-sudo npm run dev &
+ npm run dev &
 php artisan serve

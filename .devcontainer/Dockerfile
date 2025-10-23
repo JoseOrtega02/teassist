@@ -23,6 +23,17 @@ RUN apt-get update && \
         php8.3-sqlite3 php8.3-pdo php8.3-pdo-mysql php8.3-gd php8.3-intl php8.3-readline \
         openssl curl git unzip composer
 
+# Instalación de Node.js (para npm/yarn/pnpm) y herramientas de compilación necesarias
+RUN apt-get update && \
+    apt-get install -y curl ca-certificates gnupg build-essential lsb-release && \
+    curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
+    apt-get install -y nodejs && \
+    # habilitar corepack para manejar yarn/pnpm (opcional) y actualizar npm
+    (corepack enable || true) && \
+    (corepack prepare yarn@stable --activate || true) && \
+    (corepack prepare pnpm@latest --activate || true) && \
+    npm install -g npm@latest --no-audit --no-fund || true
+
 # Limpieza
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
