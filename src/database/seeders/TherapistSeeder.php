@@ -20,6 +20,7 @@ class TherapistSeeder extends Seeder
         $users = User::factory()
             ->count(10)
             ->create();
+        
 
         foreach ($users as $user) {
             // Asignar rol therapist

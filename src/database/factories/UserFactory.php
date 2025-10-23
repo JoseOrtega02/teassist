@@ -44,4 +44,13 @@ class UserFactory extends Factory
             'password' => Hash::make(env('ADMIN_PASSWORD')),
         ]);
     }
+
+    public function therapistUser(): static
+    {
+        return $this->state(fn(array $attributes) => [
+            'name' => env('THERAPIST_USERNAME'),
+            'email' => env('THERAPIST_EMAIL'),
+            'password' => Hash::make(env('THERAPIST_PASSWORD')),
+        ]);
+    }
 }

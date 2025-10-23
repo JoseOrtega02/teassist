@@ -24,6 +24,7 @@ class UsersSeeder extends Seeder
         $rolesAdminRole = Role::where('name', 'roles-admin')->first();
         $usersAdminRole = Role::where('name', 'users-admin')->first();
         $registeredRole = Role::where('name', 'registered')->first();
+        $therapistRole = Role::where('name', 'therapist')->first();
 
         // Crear usuario root
         $rootUser = User::factory()->rootUser()->create(['role' => $rootRole->id]);
@@ -36,6 +37,11 @@ class UsersSeeder extends Seeder
         // Crear admin de usuarios
         $usersAdmin = User::factory()->create(['role' => $usersAdminRole?->id]);
         $usersAdmin->assignRole('users-admin');
+
+        // Crear usuario Terapeuta
+        
+        $therapistUser = User::factory()->therapistUser()->create(['role' => $therapistRole?->id]);
+        $therapistUser->assignRole('therapist');
 
         // Crear usuarios registrados
         User::factory()->count(7)->create()->each(function ($user) use ($registeredRole) {
