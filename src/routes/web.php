@@ -47,6 +47,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
         Route::get('/', [RoleController::class, 'index'])->name('index');
         Route::get('/create', [RoleController::class, 'create'])->middleware('permission:roles-create')->name('create');
         Route::post('/', [RoleController::class, 'store'])->middleware('permission:roles-create')->name('store');
+        Route::get('/{role}', [RoleController::class, 'show'])->name('show');
         Route::get('/{role}/edit', [RoleController::class, 'edit'])->middleware('permission:roles-edit')->name('edit');
         Route::put('/{role}', [RoleController::class, 'update'])->middleware('permission:roles-edit')->name('update');
         Route::delete('/{role}', [RoleController::class, 'destroy'])->middleware('permission:roles-delete')->name('destroy');
@@ -59,6 +60,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
         Route::get('/', [UserController::class, 'index'])->name('index');
         Route::get('/create', [UserController::class, 'create'])->middleware('permission:users-create')->name('create');
         Route::post('/', [UserController::class, 'store'])->middleware('permission:users-create')->name('store');
+        Route::get('/{user}', [UserController::class, 'show'])->name('show');
         Route::get('/{user}/edit', [UserController::class, 'edit'])->middleware('permission:users-edit')->name('edit');
         Route::put('/{user}', [UserController::class, 'update'])->middleware('permission:users-edit')->name('update');
         Route::delete('/{user}', [UserController::class, 'destroy'])->middleware('permission:users-delete')->name('destroy');
