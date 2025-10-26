@@ -44,7 +44,7 @@
         <div class="mt-2">
             <x-label for="sexo" value="Sexo" />
             <select name="sexo" required
-                class="border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm block mt-1 w-full">
+                class="border-gray-300 bg-white text-gray-900 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm block mt-1 w-full">
                 <option value="M">Masculino</option>
                 <option value="F">Femenino</option>
             </select>
@@ -61,17 +61,18 @@
         </div class="mt-2">
         <div class="mt-2">
             <x-label for="direccion" value="Dirección" />
-            <x-input id="direccion" class="block mt-1 w-full" type="text" name="direccion" :value="old('direccion')" required
+            <x-input id="direccion" class="block mt-1 w-full bg-white text-gray-900 border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" type="text" name="direccion" :value="old('direccion')" required
                 autocomplete="direccion" />
         </div>
         <div class="mt-2">
             <x-label for="observaciones" value="Observaciones" />
             <textarea name="observaciones" id="observaciones" cols="30" rows="5"
-                class="border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm block mt-1 w-full"
+                class="border-gray-300 bg-white text-gray-900 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm block mt-1 w-full"
                 required>{{ old('observaciones') }}</textarea>
         </div>
 
-        <div class="mt-2">
+    </div>
+    <div class="mt-2">
             <x-label for="therapists" value="Terapeutas" />
             <select name="therapists[]" id="therapists" multiple class="block mt-1 w-full border-gray-300 rounded-md">
                 @foreach($therapists as $t)
