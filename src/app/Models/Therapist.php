@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Therapist extends Model
 {
@@ -32,10 +32,11 @@ class Therapist extends Model
     }
 
     /**
-     * Relación con pacientes (un terapeuta tiene muchos pacientes)
+     * Relación con pacientes (muchos a muchos — pivot patient_therapist)
      */
-    public function patients(): HasMany
+    public function patients(): BelongsToMany
     {
-        return $this->hasMany(Patient::class, 'therapist_id');
+        return $this->belongsToMany(Patient::class, 'patient_therapist', 'therapist_id', 'patient_id')
+                    ->withTimestamps();
     }
 }

@@ -113,6 +113,11 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     // ASIGNACIÓN DE ACTIVIDADES A PACIENTES
     // ============================================
     Route::middleware('permission:activity-patient-list')->prefix('patient-activities')->name('patient-activities.')->group(function () {
+        Route::get('/create', [PatientActivityController::class, 'create'])->name('create');
+        Route::get('/{patientActivity}', [PatientActivityController::class, 'show'])->name('show');
+        Route::get('/{patientActivity}/edit', [PatientActivityController::class, 'edit'])->name('edit');
+        Route::put('/{patientActivity}', [PatientActivityController::class, 'update'])->name('update');
+        Route::delete('/{patientActivity}', [PatientActivityController::class, 'destroy'])->name('destroy');
         Route::get('/', [PatientActivityController::class, 'index'])->name('index');
         Route::post('/', [PatientActivityController::class, 'store'])->middleware('permission:activity-patient-create')->name('store');
         Route::delete('/{patientActivity}', [PatientActivityController::class, 'destroy'])->middleware('permission:activity-patient-delete')->name('destroy');

@@ -22,7 +22,8 @@ class PatientActivityController extends Controller
 
         // Limitar lista de pacientes según rol
         if ($user && ($user->role === 'therapist') && method_exists($user, 'therapist') && $user->therapist) {
-            $patients = Patient::where('therapist_id', $user->therapist->id)->get();
+            // Obtener pacientes asociados al terapeuta a través del pivot
+            $patients = $user->therapist->patients()->get();
         } else {
             // root u otros administradores
             $patients = Patient::all();
