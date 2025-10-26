@@ -65,7 +65,22 @@ therapists
 patients
 ├── id
 ├── user_id (FK -> users.id) -- Relación 1:1 con User
-├── therapist_id (FK -> therapists.id) -- Relación N:1 con Therapist
+├── codigo (unique)
+├── nacimiento
+├── telefono
+├── email (unique)
+├── direccion
+├── observaciones
+├── created_at
+└── updated_at
+
+-- Tabla pivot paciente-terapeuta (many-to-many)
+patient_therapist
+├── id
+├── patient_id (FK -> patients.id)
+├── therapist_id (FK -> therapists.id)
+├── created_at
+└── updated_at
 ├── codigo (unique)
 ├── nacimiento
 ├── telefono
@@ -100,6 +115,9 @@ User (1) ──── (1) Therapist
                       │
                       │ therapist_id
                       │
+                      │
+                      │  (many-to-many via patient_therapist)
+                      │
                       └─── (N) Patient ──── (1) User
 ```
 
@@ -130,6 +148,7 @@ class User extends Authenticatable
         'role', // ← Columna adicional para filtros rápidos
     ];
 
+    use Illuminate\Database\Eloquent\Relations\BelongsToMany;
     // Relación 1:1 con Therapist
     public function therapist()
     {

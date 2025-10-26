@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Patient;
+use App\Models\Therapist;
 use Illuminate\Http\Request;
 use App\Http\Requests\PatientRequest;
 
@@ -22,7 +23,8 @@ class PatientController extends Controller
      */
     public function create()
     {
-        return view('patients.create');
+        $therapists = Therapist::all();
+        return view('patients.create', compact('therapists'));
     }
 
     /**
@@ -30,7 +32,14 @@ class PatientController extends Controller
      */
     public function store(PatientRequest $request)
     {
-        Patient::create($request->validated());
+        $data = $request->validated();
+        $patient = Patient::create($data);
+
+        // sync therapists if provided (array of therapist ids)
+        if ($request->has('therapists') && is_array($request->get('therapists'))) {
+            $patient->therapists()->sync($request->get('therapists'));
+        }
+
         return redirect()->route('patients.index');
     }
 
@@ -47,7 +56,8 @@ class PatientController extends Controller
      */
     public function edit(Patient $patient)
     {
-        return view('patients.edit', compact('patient'));
+        $therapists = Therapist::all();
+        return view('patients.edit', compact('patient', 'therapists'));
     }
 
     /**
@@ -65,8 +75,16 @@ class PatientController extends Controller
             'telefono' => 'required',
             'email' => 'required|email|unique:patients,email,' . $patient->id,
             'direccion' => 'required',
+            'therapists' => 'sometimes|array',
+            'therapists.*' => 'exists:therapists,id',
         ]);
-        $patient->update($request->all());
+
+        $patient->update($request->only(['codigo','apellidos','nombres','dni','nacimiento','sexo','telefono','email','direccion','observaciones']));
+
+        if ($request->has('therapists')) {
+            $patient->therapists()->sync($request->get('therapists'));
+        }
+
         return redirect()->route('patients.index');
     }
 

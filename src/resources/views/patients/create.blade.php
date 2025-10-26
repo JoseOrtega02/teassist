@@ -70,6 +70,17 @@
                 class="border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm block mt-1 w-full"
                 required>{{ old('observaciones') }}</textarea>
         </div>
+
+        <div class="mt-2">
+            <x-label for="therapists" value="Terapeutas" />
+            <select name="therapists[]" id="therapists" multiple class="block mt-1 w-full border-gray-300 rounded-md">
+                @foreach($therapists as $t)
+                    <option value="{{ $t->id }}" @if(in_array($t->id, old('therapists', []))) selected @endif>
+                        {{ $t->nombres }} {{ $t->apellidos }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
         <div class="flex items-center justify-end mt-4">
             <x-button class="ms-4">Crear paciente </x-button>
         </div>

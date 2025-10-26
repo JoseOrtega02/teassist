@@ -26,6 +26,14 @@
         <input type="text" name="direccion" value="{{ $patient->direccion }}" required>
         <label for="observaciones">Observaciones</label>
         <textarea name="observaciones">{{ $patient->observaciones }}</textarea>
+        <label for="therapists">Terapeutas</label>
+        <select name="therapists[]" id="therapists" multiple>
+            @foreach($therapists as $t)
+                <option value="{{ $t->id }}" @if(in_array($t->id, old('therapists', $patient->therapists->pluck('id')->toArray()))) selected @endif>
+                    {{ $t->nombres }} {{ $t->apellidos }}
+                </option>
+            @endforeach
+        </select>
         <button type="submit">Guardar</button>
     </form>
 </x-crud-layout>
