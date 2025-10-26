@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\EventController;
@@ -36,6 +38,35 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     // Dashboard - requiere permiso 'see-panel'
     Route::middleware('permission:see-panel')->group(function () {
         Route::get('/dashboard', function () {
+            $user = Auth::user();
+
+            // Redirect based on most relevant permission/role available
+            // Therapist / users who manage patients -> patients list
+            if (Gate::forUser($user)->allows('patient-list')) {
+                return redirect()->route('patients.index');
+            }
+
+            // Users who manage activities -> activities list
+            if (Gate::forUser($user)->allows('activity-list')) {
+                return redirect()->route('activities.index');
+            }
+
+            // Users who view patient-activities -> patient assignments
+            if (Gate::forUser($user)->allows('activity-patient-list')) {
+                return redirect()->route('patient-activities.index');
+            }
+
+            // Roles/admin users -> roles list
+            if (Gate::forUser($user)->allows('roles-list')) {
+                return redirect()->route('roles.index');
+            }
+
+            // Users management
+            if (Gate::forUser($user)->allows('users-list')) {
+                return redirect()->route('users.index');
+            }
+
+            // Fallback: show dashboard view
             return view('dashboard');
         })->name('dashboard');
     });
