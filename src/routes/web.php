@@ -11,6 +11,7 @@ use App\Http\Controllers\PatientController;
 use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\ContadorController;
 use App\Http\Controllers\PatientActivityController;
+use App\Http\Controllers\PatientMoodController;
 use App\Http\Controllers\Auth\PatientLoginController;
 
 Route::get('/', function () {
@@ -153,4 +154,11 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
         Route::post('/', [PatientActivityController::class, 'store'])->middleware('permission:activity-patient-create')->name('store');
         Route::delete('/{patientActivity}', [PatientActivityController::class, 'destroy'])->middleware('permission:activity-patient-delete')->name('destroy');
     });
+
+        // Registro de estado de ánimo por parte del paciente
+        Route::get('/patient/mood', [PatientMoodController::class, 'create'])->name('patient-moods.create')->middleware('role:patient');
+        Route::post('/patient/moods', [PatientMoodController::class, 'store'])->name('patient-moods.store')->middleware('role:patient');
+
+        // Ver historial de moods por paciente (terapeutas/admins)
+        Route::get('/patients/{patient}/moods', [PatientMoodController::class, 'index'])->name('patients.moods.index')->middleware('permission:activity-patient-list');
 });

@@ -16,5 +16,11 @@ class ActivitySeeder extends Seeder
     public function run(): void
     {
         Activity::factory()->count(3)->create();
+
+        // Ensure a mood-selection activity exists for therapists to assign
+        Activity::firstOrCreate(
+            ['name' => 'Seleccionar estado de ánimo'],
+            ['description' => 'Actividad para que el paciente registre su estado de ánimo del día.', 'image' => null]
+        );
     }
 }

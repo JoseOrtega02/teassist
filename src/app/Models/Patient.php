@@ -32,4 +32,12 @@ class Patient extends Model
         return $this->belongsToMany(Therapist::class, 'patient_therapist', 'patient_id', 'therapist_id')
                     ->withTimestamps();
     }
+
+    /**
+     * Moods recorded by the patient
+     */
+    public function moods()
+    {
+        return $this->hasMany(\App\Models\PatientMood::class);
+    }
 }

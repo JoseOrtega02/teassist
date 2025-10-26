@@ -20,6 +20,8 @@
                         </x-nav-link>
                     @endcan
 
+                    {{-- therapist moods nav removed; link moved into patients table --}}
+
                     @can('therapist-list')
                         <x-nav-link href="{{ route('therapists.index') }}" :active="request()->routeIs('therapists.*')">
                             {{ __('Terapeutas') }}
@@ -193,6 +195,8 @@
                     {{ __('Pacientes') }}
                 </x-responsive-nav-link>
             @endcan
+
+            {{-- therapist moods responsive nav removed; link moved into patients table --}}
 
             @can('therapist-list')
                 <x-responsive-nav-link href="{{ route('therapists.index') }}" :active="request()->routeIs('therapists.*')">

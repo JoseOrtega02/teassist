@@ -76,6 +76,17 @@ class ActivityController extends Controller
      */
     public function show(Activity $activity)
     {
+        $user = Auth::user();
+
+        // If a patient is viewing and this activity is a "mood" activity,
+        // show the mood picker UI so the patient can record their mood.
+        if ($user && $user->role === 'patient') {
+            $name = strtolower($activity->name);
+            if (str_contains($name, 'humor') || str_contains($name, 'ánimo') || str_contains($name, 'animo') || str_contains($name, 'mood')) {
+                return view('activities.mood', compact('activity'));
+            }
+        }
+
         return view('activities.show', compact('activity'));
     }
 
